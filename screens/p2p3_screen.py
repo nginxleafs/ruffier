@@ -6,13 +6,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 
 import instructions
-from theme import *
+from theme import text_color, input_color, button_color
 
 
 class P2P3Screen(Screen):
     def __init__(self, **kw):
-        super().__init__(**kw)
-        p2p3_label = Label(text=instructions.txt_test3)
+        super().__init__(name="P2P3", **kw)
+        p2p3_label = Label(text=instructions.txt_test3, color=text_color)
         self.p2_input = TextInput(
             hint_text="За первые 15 секунд", background_color=input_color
         )
@@ -47,6 +47,8 @@ class P2P3Screen(Screen):
         try:
             App.get_running_app().data["p2"] = int(self.p2_input.text)
             App.get_running_app().data["p3"] = int(self.p3_input.text)
+            self.p2_input.text = ""
+            self.p3_input.text = ""
             self.manager.current = "Result"
 
         except ValueError:

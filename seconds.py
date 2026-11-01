@@ -24,7 +24,6 @@ class Timer(Label):
             self._event = None
 
     def change(self, dt):
-        breakpoint()
         self.current -= 1
         self.text = f"{self.current}"
         if self.current == 0:

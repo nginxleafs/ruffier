@@ -8,17 +8,18 @@ from kivy.uix.textinput import TextInput
 
 import instructions
 from seconds import Timer
-from theme import *
+from theme import button_color, text_color
 
 
 class SquatsScreen(Screen):
     def __init__(self, **kw):
-        super().__init__(**kw)
+        super().__init__(name="Squats", **kw)
 
         squats_button = Button(
             text="Продолжить",
             disabled=True,
             on_press=lambda x: setattr(self.manager, "current", "P2P3"),
+            background_color=button_color
         )
 
         squats_label = Label(
@@ -26,6 +27,7 @@ class SquatsScreen(Screen):
             size_hint_y=None,
             valign="middle",
             halign="center",
+            color=text_color
         )
         self.squats_timer = Timer(
             50,
@@ -33,6 +35,7 @@ class SquatsScreen(Screen):
             size_hint_y=None,
             halign="center",
             valign="middle",
+            color=text_color
         )
 
         squats_label.bind(width=lambda inst, w: setattr(inst, "text_size", (w, None)))
