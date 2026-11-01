@@ -43,34 +43,48 @@ txt_res.append("""
 txt_res.append("""
 высокая""")
 
+table = {
+    "7-8": {
+        "bad": 21,
+        "low": (17, 21),
+        "medium": (12, 17),
+        "nice": (6.5, 12),
+        "ideal": 6.5,
+    },
+    "9-10": {
+        "bad": 19.5,
+        "low": (15.5, 19.5),
+        "medium": (10.5, 15.5),
+        "nice": (5, 10.5),
+        "ideal": 5,
+    },
+    "11-12": {
+        "bad": 18,
+        "low": (14, 18),
+        "medium": (9, 14),
+        "nice": (3.5, 9),
+        "ideal": 3.5,
+    },
+    "13-14": {
+        "bad": 16.5,
+        "low": (12.5, 16.5),
+        "medium": (7.5, 12.5),
+        "nice": (2, 7.5),
+        "ideal": 2,
+    },
+    "15+": {
+        "bad": 15,
+        "low": (11, 15),
+        "medium": (6, 11),
+        "nice": (0.5, 6),
+        "ideal": 0.5,
+    },
+}
+
 
 def ruffier_index(P1, P2, P3):
     """возвращает значение индекса по трем показателям пульса для сверки с таблицей"""
     return (4 * (P1 + P2 + P3) - 200) / 10
-
-
-def bad_level(age):
-    """варианты с возрастом меньше 7 и взрослым надо обрабатывать отдельно,
-    здесь подбираем уровень "неуд" только внутри таблицы:
-    в возрасте 7 лет "неуд" - это индекс 21, дальше каждые 2 года он понижается на 1.5 до значения 15 в 15-16 лет"""
-    return 21 + int((7 - age) // 2) * 1.5
-    pass
-
-
-def low_level(age):
-    return (17 + int((7 - age) / 2) * 1.5, 21 + int((7 - age) / 2) * 1.5)
-
-
-def medium_level(age):
-    return (12 + int(7 - age) / 2) * 1.5, 17 + int((7 - age) / 2) * 1.5
-
-
-def good_level(age):
-    return (6.5 + int((7 - age) / 2) * 1.5, 12 + int((7 - age) / 2) * 1.5)
-
-
-def ideal_level(age):
-    return 6.5 + int((7 - age) / 2) * 1.5
 
 
 def ruffier_result(r_index, age):
@@ -78,21 +92,28 @@ def ruffier_result(r_index, age):
     возвращает уровень готовности: число от 0 до 4
     (чем выше уровень готовности, тем лучше)."""
 
-    if r_index >= bad_level(age):
-        # return f"{txt_index}{r_index}\n{txt_workheart}\n{txt_res[0]}"
+    if age == 7 or age == 8:
+        age_range = "7-8"
+    elif age == 9 or age == 10:
+        age_range = "9-10"
+    elif age == 11 or age == 12:
+        age_range = "11-12"
+    elif age == 13 or age == 14:
+        age_range = "13-14"
+    elif age > 14:
+        age_range = "15+"
+
+    data = table[age_range]
+
+    if r_index >= data["bad"]:
         return 0
-
-    if r_index >= low_level(age)[0] and r_index < low_level(age)[1]:
-        # return f"{txt_index}{r_index}\n{txt_workheart}\n{txt_res[1]}"
+    if r_index >= data["low"][0] and r_index < data["low"][1]:
         return 1
-
-    if r_index >= medium_level(age)[0] and r_index < medium_level(age)[1]:
+    if r_index >= data["medium"][0] and r_index < data["medium"][1]:
         return 2
-
-    if r_index >= good_level(age)[0] and r_index < good_level(age)[1]:
+    if r_index >= data["nice"][0] and r_index < data["nice"][1]:
         return 3
-
-    if r_index <= ideal_level(age):
+    if r_index < data["ideal"]:
         return 4
 
 

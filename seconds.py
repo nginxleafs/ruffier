@@ -1,6 +1,7 @@
 from kivy.clock import Clock
 from kivy.uix.label import Label
 
+
 class Timer(Label):
     def __init__(self, max, on_finish=None, **kwargs):
         super().__init__(**kwargs)
@@ -23,6 +24,7 @@ class Timer(Label):
             self._event = None
 
     def change(self, dt):
+        breakpoint()
         self.current -= 1
         self.text = f"{self.current}"
         if self.current == 0:
